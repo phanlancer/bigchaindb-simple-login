@@ -21,12 +21,12 @@ const MOUNT_NODE = document.getElementById('root');
 render(
   <Provider store={store}>
     <PersistGate persistor={persistor} loading={<div>Loading</div>}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" component={App} />
-            <Route component={Page404} />
-          </Switch>
-        </ConnectedRouter>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route path="/" component={App} />
+          <Route component={Page404} />
+        </Switch>
+      </ConnectedRouter>
     </PersistGate>
   </Provider>,
   MOUNT_NODE
