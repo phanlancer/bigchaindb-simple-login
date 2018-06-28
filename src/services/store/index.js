@@ -11,7 +11,7 @@ import sagas from '../sagas';
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['auth', 'currencyTypes']
+  whitelist: ['auth']
 }
 
 const sagaMiddleware = saga();

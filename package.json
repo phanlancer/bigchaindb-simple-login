@@ -1,11 +1,15 @@
 {
-  "name": "privacy-keeper",
+  "name": "Identiify",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "ajv": "^6.5.1",
+    "bigchaindb-driver": "^4.0.2",
+    "bip39": "^2.5.0",
     "bootstrap": "^4.1.1",
+    "crypto-js": "^3.1.9-1",
     "jquery": "^3.3.1",
+    "randomstring": "^1.1.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",

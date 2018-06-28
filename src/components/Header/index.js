@@ -32,7 +32,7 @@ class Header extends Component {
       <div>
         <Navbar color="dark" dark expand="md">
           <div className="container">
-            <NavbarBrand href="/">PRIVACY KEEPER</NavbarBrand>
+            <NavbarBrand href="/">Identiify</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               { 
