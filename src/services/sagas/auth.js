@@ -3,35 +3,34 @@ import { push } from 'react-router-redux';
 
 import { updateAppAction } from '../actions/app';
 import { updateAuthAction } from '../actions/auth';
-import { register } from '../apis/auth';
+import { login, register } from '../apis/auth';
 
-// export function * fetchLogin (action) {
-//   console.log('--login---', action);
-//   try {
-//     yield put(updateAppAction({ loading: true, error: false, errorMessage: '' }));
-//     const redirect = action.payload.redirect;
-//     const payload = {
-//       email: action.payload.email,
-//       password: action.payload.password
-//     };
-//     const res = yield call(login, payload);
-//     console.log('-res-', res);
-//     if (res.errors !== undefined) {
-//       console.log('-fail-');
-//       yield put(updateAppAction({ loading: false, error: true, errorMessage: res.errors }));
-//     } else {
-//       console.log('-success-')
-//       yield put(updateAppAction({ loading: false, error: false, errorMessage: '' }));
-//       yield put(updateAuthAction({ authenticated: true, ...res }));
-//       if (redirect !== '') {
-//         yield put(push(redirect));
-//       }
-//     }
-//   } catch (error) {
-//     yield put(updateAppAction({ loading: false, error: true, errorMessage: 'Invalid username/password' }));
-//     console.log('-login error-', error);
-//   }
-// }
+export function * fetchLogin (action) {
+  console.log('--login---', action);
+  try {
+    yield put(updateAppAction({ loading: true, error: false, errorMessage: '' }));
+    const redirect = action.payload.redirect;
+    const payload = {
+      password: action.payload.password
+    };
+    const res = yield call(login, payload);
+    console.log('-res-', res);
+    if (res.errors !== undefined) {
+      console.log('-fail-');
+      yield put(updateAppAction({ loading: false, error: true, errorMessage: res.errors }));
+    } else {
+      console.log('-success-')
+      yield put(updateAppAction({ loading: false, error: false, errorMessage: '' }));
+      yield put(updateAuthAction({ authenticated: true, ...res }));
+      if (redirect !== '') {
+        yield put(push(redirect));
+      }
+    }
+  } catch (error) {
+    yield put(updateAppAction({ loading: false, error: true, errorMessage: 'Invalid password' }));
+    console.log('-login error-', error);
+  }
+}
 
 export function * fetchRegister (action) {
   try {
@@ -64,10 +63,10 @@ export function * fetchLogout (action) {
 
       const url = '/login?redirect=' + encodeURIComponent(pathname);
 
-      yield put(updateAuthAction({ token: '', authenticated: false, me: {} }));
+      yield put(updateAuthAction({ currentIdentity: undefined, authenticated: false, me: {} }));
       yield put(push(url));
     } else {
-      yield put(updateAuthAction({ token: '', authenticated: false, me: {} }));
+      yield put(updateAuthAction({ currentIdentity: undefined, authenticated: false, me: {} }));
       yield put(push('/'));
     }
   } catch (error) {}

@@ -41,6 +41,13 @@ export const register = userInfo => {
   });
 }
 
+export const login = userInfo => {
+  const currentIdentity = generateKeypair(userInfo.password);
+
+  // get user information by getting an asset
+  return { currentIdentity: currentIdentity, me: {} };
+}
+
 function generateKeypair(keySeed) {
   if (typeof keySeed === "undefined" || keySeed === "") return new Ed25519Keypair();
   return new Ed25519Keypair(bip39.mnemonicToSeed(keySeed).slice(0, 32));

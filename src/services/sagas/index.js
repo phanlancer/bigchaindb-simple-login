@@ -2,7 +2,7 @@ import { all, takeEvery } from 'redux-saga/effects';
 
 import * as types from '../../constants/ActionTypes';
 
-import { fetchRegister } from '../sagas/auth';
+import { fetchLogin, fetchRegister, fetchLogout } from '../sagas/auth';
 
 
 import { handleFetchError } from './error';
@@ -10,8 +10,8 @@ import { handleFetchError } from './error';
 export default function * root () {
   yield all([
     // Authentication
-    // takeEvery(types.ACTION_LOGIN, fetchLogin),
-    // takeEvery(types.ACTION_LOGOUT, fetchLogout),
+    takeEvery(types.ACTION_LOGIN, fetchLogin),
+    takeEvery(types.ACTION_LOGOUT, fetchLogout),
     takeEvery(types.ACTION_REGISTER, fetchRegister),
     // Profile
     // takeEvery(types.ACTION_GET_PROFILE, fetchGetProfile),

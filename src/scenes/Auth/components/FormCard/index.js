@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form } from 'reactstrap';
 
-import '../../styles.css';
-
 const FormCard = props => {
   return (
     <div className="auth-form">

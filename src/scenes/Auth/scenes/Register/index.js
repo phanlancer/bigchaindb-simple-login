@@ -93,7 +93,6 @@ class Register extends Component {
             className="form__input mb-4"
             type="text"
             placeholder="Name"
-            autoFocus={true}
             value={this.state.name}
             onChange={this.handleNameChanged.bind(this)}
           />
@@ -105,7 +104,6 @@ class Register extends Component {
             className="form__input mb-4"
             type="text"
             placeholder="Address"
-            autoFocus={true}
             value={this.state.address}
             onChange={this.handleAddressChanged.bind(this)}
           />
@@ -115,9 +113,8 @@ class Register extends Component {
           <Input
             id="registerFormAddress"
             className="form__input mb-4"
-            type="text"
+            type="date"
             placeholder="Date of Birthday"
-            autoFocus={true}
             value={this.state.DOB}
             onChange={this.handleDOBChanged.bind(this)}
           />
