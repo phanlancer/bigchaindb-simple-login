@@ -1,43 +1,15 @@
-import driver from 'bigchaindb-driver';
+import { Ed25519Keypair, Transaction } from 'bigchaindb-driver';
 import bip39 from 'bip39';
 
-import APPCONFIG from '../../../../constants/Config';
 import connection from '../BigchaindbConnection';
-import { encrypt, decrypt } from '../../services/CryptoEncrypt';
-
-const apiURL = APPCONFIG.apiURL;
-
-const endPoints = {
-  login: 'users/login',
-  register: 'users/register'
-};
-
-export const login = credential => {
-  const url = apiURL + endPoints.login;
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'post',
-      body: JSON.stringify(credential)
-    })
-    .then(response => {
-      if (response.status !== 200) {
-        return reject(response);
-      }
-      return response.json();
-    })
-    .then(res => resolve(res))
-    .catch(err => reject(err))
-  });
-}
+import { encrypt } from '../../services/CryptoEncrypt';
 
 export const register = userInfo => {
   const currentIdentity = generateKeypair(userInfo.password);
   // Create asset object.
   const assetData = {
-      'type': 'Identiify'
+      'type': 'Identiify',
+      'item': 'IDProfile'
   };
   // Create metadata object.
   const metaData = {
@@ -49,18 +21,20 @@ export const register = userInfo => {
       'updated_at': new Date().toISOString()
   };
   // Create a CREATE transaction.
-  const introduceFoodItemToMarketTransaction = driver.Transaction.makeCreateTransaction(
+  const introduceFoodItemToMarketTransaction = Transaction.makeCreateTransaction(
       assetData,
       metaData,
-      [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(currentIdentity.publicKey))],
+      [Transaction.makeOutput(Transaction.makeEd25519Condition(currentIdentity.publicKey))],
       currentIdentity.publicKey
   );
   // We sign the transaction
-  const signedTransaction = driver.Transaction.signTransaction(introduceFoodItemToMarketTransaction, currentIdentity.privateKey);
+  const signedTransaction = Transaction.signTransaction(introduceFoodItemToMarketTransaction, currentIdentity.privateKey);
   // Post the transaction to the network
+  console.log('signed transaction - ', signedTransaction);
   return new Promise((resolve, reject) => {
-    connection.postTransactionCommit(signedTransaction).then(postedTransaction => {
-      return postedTransaction;
+    connection.postTransactionCommit(signedTransaction)
+    .then(postedTransaction => {
+      resolve({ currentIdentity: currentIdentity, me: postedTransaction });
     }).catch(err => {
       reject(err);
     })
@@ -68,6 +42,6 @@ export const register = userInfo => {
 }
 
 function generateKeypair(keySeed) {
-  if (typeof keySeed == "undefined" || keySeed == "") return new driver.Ed25519Keypair();
-  return new driver.Ed25519Keypair(bip39.mnemonicToSeed(keySeed).slice(0, 32));
+  if (typeof keySeed === "undefined" || keySeed === "") return new Ed25519Keypair();
+  return new Ed25519Keypair(bip39.mnemonicToSeed(keySeed).slice(0, 32));
 }

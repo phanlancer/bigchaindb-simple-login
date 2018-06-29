@@ -1,7 +1,7 @@
 import { ACTION_UPDATE_AUTH } from '../../constants/ActionTypes';
 
 const initialState = {
-  token: '',
+  currentIdentity: '',
   authenticated: false,
   me: {}
 };
