@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { loginAction } from '../../../../services/actions/auth';
 import FormCard from '../../components/FormCard';
+import CircularProgress from '../../../../components/CircularProgress';
 
 class Login extends Component {
   constructor() {
@@ -64,8 +65,12 @@ class Login extends Component {
           />
         </FormGroup>
 
-        <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>LOG IN</button>
-
+        {
+          this.props.app.loading
+          ? <CircularProgress />
+          : <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>LOG IN</button>
+        }
+        
         <br/>
         <NavLink to="/register">
           REGISTER

@@ -225,7 +225,6 @@ ul {
   display: flex;
   flex-wrap: wrap;
   padding: 15px;
-  padding-top: 80px;
   align-items: center;
   justify-content: center;
   background-image: -moz-linear-gradient(120deg, var(--theme-color2) 0%, var(--theme-color1) 100%);

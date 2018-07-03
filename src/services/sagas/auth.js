@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 
 import { updateAppAction } from '../actions/app';
 import { updateAuthAction } from '../actions/auth';
-import { login, register } from '../apis/auth';
+import { login, register, updateProfile } from '../apis/auth';
 
 export function * fetchLogin (action) {
   console.log('--login---', action);
@@ -38,6 +38,28 @@ export function * fetchRegister (action) {
     yield put(updateAppAction({ loading: true, error: false, errorMessage: '' }));
 
     const res = yield call(register, action.payload);
+    console.log('-res-', res);
+    if (res.message !== undefined) {
+      console.log('-fail-');
+      yield put(updateAppAction({ loading: false, error: true, errorMessage: res.message }));
+    } else {
+      console.log('-success-');
+      yield put(updateAppAction({ loading: false, error: false, errorMessage: '' }));
+      yield put(updateAuthAction({ authenticated: true, ...res }));
+      yield put(push('/'));
+    }
+  } catch (error) {
+
+    yield put(updateAppAction({ loading: false, error: true, errorMessage: 'Something goes wrong' }));
+    console.log('-register error-', error);
+  }
+}
+
+export function * fetchUpdateProfile (action) {
+  try {
+    yield put(updateAppAction({ loading: true, error: false, errorMessage: '' }));
+
+    const res = yield call(updateProfile, action.payload);
     console.log('-res-', res);
     if (res.message !== undefined) {
       console.log('-fail-');

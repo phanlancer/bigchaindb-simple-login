@@ -7,6 +7,7 @@ import RandomString from 'randomstring';
 
 import { registerAction } from '../../../../services/actions/auth';
 import FormCard from '../../components/FormCard';
+import CircularProgress from '../../../../components/CircularProgress';
 
 class Register extends Component {
   constructor() {
@@ -120,7 +121,11 @@ class Register extends Component {
           />
         </FormGroup>
 
-        <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>REGISTER</button>
+        {
+          this.props.app.loading
+          ? <CircularProgress />
+          : <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>REGISTER</button>
+        }
 
         <br/>
         <NavLink to="/login">

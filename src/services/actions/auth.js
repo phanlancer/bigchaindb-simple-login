@@ -12,6 +12,10 @@ export function registerAction (payload) {
   return { type: types.ACTION_REGISTER, payload };
 }
 
+export function updateProfileAction (payload) {
+  return { type: types.ACTION_UPDATE_PROFILE, payload };
+}
+
 export function updateAuthAction (payload) {
   return { type: types.ACTION_UPDATE_AUTH, payload };
 }
