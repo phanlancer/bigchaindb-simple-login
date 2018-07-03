@@ -35,9 +35,11 @@ class App extends Component {
 
     return (
       <div className="App">
+        <Header />
         <Switch>
           <Route component={Main} />
         </Switch>
+        <Footer />
       </div>
     );
   }

@@ -25,6 +25,7 @@ export function * fetchLogin (action) {
       if (redirect !== '') {
         yield put(push(redirect));
       }
+      yield put(push('/'));
     }
   } catch (error) {
     yield put(updateAppAction({ loading: false, error: true, errorMessage: 'Invalid password' }));
@@ -45,7 +46,7 @@ export function * fetchRegister (action) {
       console.log('-success-');
       yield put(updateAppAction({ loading: false, error: false, errorMessage: '' }));
       yield put(updateAuthAction({ authenticated: true, ...res }));
-      // yield put(push('/main')) // TODO: update redirect URL
+      yield put(push('/'));
     }
   } catch (error) {
 

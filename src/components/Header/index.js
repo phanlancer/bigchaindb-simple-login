@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Collapse,
   Navbar,
@@ -8,6 +9,8 @@ import {
   Nav,
   NavItem,
   NavLink } from 'reactstrap';
+  
+import { logoutAction } from '../../services/actions/auth';
 
 class Header extends Component {
   constructor(props) {
@@ -25,6 +28,10 @@ class Header extends Component {
     });
   }
 
+  handleLogout() {
+    this.props.actions.logoutAction();
+  }
+
   render() {
     const { authenticated } = this.props;
 
@@ -39,7 +46,7 @@ class Header extends Component {
                 authenticated
                 ? <Nav className="ml-auto" navbar>
                     <NavItem>
-                      <NavLink href="/logout">LOG OUT</NavLink>
+                      <NavLink onClick={this.handleLogout.bind(this)}>LOG OUT</NavLink>
                     </NavItem>
                   </Nav>
                 : <Nav className="ml-auto" navbar>
@@ -63,4 +70,11 @@ const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated
 });
 
-export default connect(mapStateToProps)(Header);
+function mapDispatchToProps(dispatch) {
+  const actions = { logoutAction };
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

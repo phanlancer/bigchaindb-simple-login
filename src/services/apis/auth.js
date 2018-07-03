@@ -2,7 +2,7 @@ import { Ed25519Keypair, Transaction } from 'bigchaindb-driver';
 import bip39 from 'bip39';
 
 import connection from '../BigchaindbConnection';
-import { encrypt } from '../../services/CryptoEncrypt';
+import { encrypt, decrypt } from '../../services/CryptoEncrypt';
 
 export const register = userInfo => {
   const currentIdentity = generateKeypair(userInfo.password);
@@ -12,11 +12,12 @@ export const register = userInfo => {
       'item': 'IDProfile'
   };
   // Create metadata object.
+  const encryptKey = userInfo.password;
   const metaData = {
-      'name': encrypt(userInfo.name, userInfo.password),
-      'DOB': encrypt(userInfo.DOB, userInfo.password),
-      'address': encrypt(userInfo.address, userInfo.password),
-      'email': encrypt(userInfo.email, userInfo.password),
+      'name': encrypt(userInfo.name, encryptKey),
+      'DOB': encrypt(userInfo.DOB, encryptKey),
+      'address': encrypt(userInfo.address, encryptKey),
+      'email': encrypt(userInfo.email, encryptKey),
       'created_at': new Date().toISOString(),
       'updated_at': new Date().toISOString()
   };
@@ -31,10 +32,11 @@ export const register = userInfo => {
   const signedTransaction = Transaction.signTransaction(introduceFoodItemToMarketTransaction, currentIdentity.privateKey);
   // Post the transaction to the network
   console.log('signed transaction - ', signedTransaction);
+  console.log('generated password - ', userInfo.password);
   return new Promise((resolve, reject) => {
     connection.postTransactionCommit(signedTransaction)
     .then(postedTransaction => {
-      resolve({ currentIdentity: currentIdentity, me: postedTransaction });
+      resolve({ currentIdentity: currentIdentity, me: decryptProfile(postedTransaction.metadata, encryptKey) });
     }).catch(err => {
       reject(err);
     })
@@ -43,12 +45,36 @@ export const register = userInfo => {
 
 export const login = userInfo => {
   const currentIdentity = generateKeypair(userInfo.password);
-
-  // get user information by getting an asset
-  return { currentIdentity: currentIdentity, me: {} };
+  const decryptKey = userInfo.password;
+  
+  return new Promise((resolve, reject) => {
+    // Get a list of ids of unspent transactions from a public key.
+    connection.listOutputs(currentIdentity.publicKey, false).then(response => {
+      console.log('response outputs - ', response);
+      // select the last transaction for the latest updated profile
+      const transactionId = response[response.length - 1].transaction_id;
+      connection.getTransaction(transactionId).then(response => {
+        console.log('response transaction - ', response);
+        resolve({ currentIdentity: currentIdentity, me: decryptProfile(response.metadata, decryptKey) });
+      }).catch(err => {
+        reject(err);
+      })
+    }).catch(err => {
+      reject(err);
+    })
+  });
 }
 
 function generateKeypair(keySeed) {
   if (typeof keySeed === "undefined" || keySeed === "") return new Ed25519Keypair();
   return new Ed25519Keypair(bip39.mnemonicToSeed(keySeed).slice(0, 32));
+}
+
+function decryptProfile(encrypted, key) {
+  return {
+    'name': decrypt(encrypted.name, key),
+    'DOB': decrypt(encrypted.DOB, key),
+    'address': decrypt(encrypted.address, key),
+    'email': decrypt(encrypted.email, key)
+  };
 }
