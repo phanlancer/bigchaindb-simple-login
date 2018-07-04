@@ -1,7 +1,8 @@
 import { Transaction } from 'bigchaindb-driver';
 
 import connection from '../BigchaindbConnection';
-import { encrypt, generateKeypair, decryptProfile } from '../../services/CryptoEncrypt';
+import { encrypt, generateKeypair } from '../../services/CryptoEncrypt';
+import { store } from '../../index';
 
 export const register = userInfo => {
   const currentIdentity = generateKeypair(userInfo.password);
@@ -21,30 +22,29 @@ export const register = userInfo => {
       'updated_at': new Date().toISOString()
   };
   // Create a CREATE transaction.
-  const introduceFoodItemToMarketTransaction = Transaction.makeCreateTransaction(
+  const transaction = Transaction.makeCreateTransaction(
       assetData,
       metaData,
       [Transaction.makeOutput(Transaction.makeEd25519Condition(currentIdentity.publicKey))],
       currentIdentity.publicKey
   );
   // We sign the transaction
-  const signedTransaction = Transaction.signTransaction(introduceFoodItemToMarketTransaction, currentIdentity.privateKey);
+  const signedTransaction = Transaction.signTransaction(transaction, currentIdentity.privateKey);
   // Post the transaction to the network
   console.log('signed transaction - ', signedTransaction);
   console.log('generated password - ', userInfo.password);
   return new Promise((resolve, reject) => {
     connection.postTransactionCommit(signedTransaction)
-    .then(postedTransaction => {
-      resolve({ currentIdentity: currentIdentity, me: decryptProfile(postedTransaction.metadata, encryptKey) });
+    .then(response => {
+      resolve({ currentIdentity: currentIdentity, generatedPassword: userInfo.password, me: response });
     }).catch(err => {
       reject(err);
-    })
+    });
   });
 }
 
 export const login = userInfo => {
   const currentIdentity = generateKeypair(userInfo.password);
-  const decryptKey = currentIdentity.privateKey;
   
   return new Promise((resolve, reject) => {
     // Get a list of ids of unspent transactions from a public key.
@@ -54,7 +54,7 @@ export const login = userInfo => {
       const transactionId = response[response.length - 1].transaction_id;
       connection.getTransaction(transactionId).then(response => {
         console.log('response transaction - ', response);
-        resolve({ currentIdentity: currentIdentity, me: decryptProfile(response.metadata, decryptKey) });
+        resolve({ currentIdentity: currentIdentity, me: response });
       }).catch(err => {
         reject(err);
       })
@@ -65,12 +65,7 @@ export const login = userInfo => {
 }
 
 export const updateProfile = userInfo => {
-  const currentIdentity = generateKeypair(userInfo.password);
-  // Create asset object.
-  const assetData = {
-      'type': 'Identiify',
-      'item': 'IDProfile'
-  };
+  const { currentIdentity, me } = store.getState().auth;
   // Create metadata object.
   const encryptKey = currentIdentity.privateKey;
   const metaData = {
@@ -78,27 +73,23 @@ export const updateProfile = userInfo => {
       'DOB': encrypt(userInfo.DOB, encryptKey),
       'address': encrypt(userInfo.address, encryptKey),
       'email': encrypt(userInfo.email, encryptKey),
-      'created_at': new Date().toISOString(),
+      'created_at': me.metadata.created_at,
       'updated_at': new Date().toISOString()
   };
-  // Create a CREATE transaction.
-  const introduceFoodItemToMarketTransaction = Transaction.makeCreateTransaction(
-      assetData,
-      metaData,
-      [Transaction.makeOutput(Transaction.makeEd25519Condition(currentIdentity.publicKey))],
-      currentIdentity.publicKey
-  );
-  // We sign the transaction
-  const signedTransaction = Transaction.signTransaction(introduceFoodItemToMarketTransaction, currentIdentity.privateKey);
-  // Post the transaction to the network
-  console.log('signed transaction - ', signedTransaction);
-  console.log('generated password - ', userInfo.password);
+
+  // Create a new TRANSFER transaction.
+  const updateAssetTransaction = Transaction.makeTransferTransaction(
+    [{ tx: me, output_index: 0 }],
+    [Transaction.makeOutput(Transaction.makeEd25519Condition(currentIdentity.publicKey))],
+    metaData
+  )
+  const signedTransaction = Transaction.signTransaction(updateAssetTransaction, currentIdentity.privateKey);
   return new Promise((resolve, reject) => {
     connection.postTransactionCommit(signedTransaction)
-    .then(postedTransaction => {
-      resolve({ currentIdentity: currentIdentity, me: decryptProfile(postedTransaction.metadata, encryptKey) });
+    .then(response => {
+      resolve({ currentIdentity: currentIdentity, me: response });
     }).catch(err => {
       reject(err);
-    })
+    });
   });
 }

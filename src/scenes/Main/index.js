@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Label } from 'reactstrap';
+import { FormGroup, Input, Label, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { registerAction } from '../../services/actions/auth';
 import FormCard from '../Auth/components/FormCard';
-
+import CircularProgress from '../../components/CircularProgress';
+import { updateProfileAction } from '../../services/actions/auth';
+import { decryptProfile } from '../../services/CryptoEncrypt';
+import { updateAuthAction } from '../../services/actions/auth';
 
 class Main extends Component {
   constructor(props) {
     super(props);
 
+    const decryptKey = this.props.auth.currentIdentity.privateKey;
+    const profile = decryptProfile(this.props.auth.me.metadata, decryptKey);
+    const { generatedPassword } = this.props.auth;
+
     this.state = {
-      ...this.props.auth.me,
-      showWarn: false
+      ...profile,
+      showWarn: false,
+      isOpenPasswordModal: generatedPassword !== undefined && generatedPassword.length > 0
     };
   }
 
@@ -50,10 +57,16 @@ class Main extends Component {
       name: this.state.name,
       address: this.state.address,
       DOB: this.state.DOB,
-      email: this.state.email,
-      password: this.state.password
+      email: this.state.email
     };
-    this.props.actions.registerAction(payload);
+    this.props.actions.updateProfileAction(payload);
+  }
+
+  togglePasswordModal() {
+    this.props.actions.updateAuthAction({ ...this.props.auth, generatedPassword: '' });
+    this.setState({
+      isOpenPasswordModal: !this.state.isOpenPasswordModal
+    });
   }
 
   render() {
@@ -68,6 +81,18 @@ class Main extends Component {
           this.props.app.error &&
           (<Label>{this.props.app.errorMessage}</Label>)
         }
+
+        <Modal isOpen={this.state.isOpenPasswordModal} toggle={this.togglePasswordModal.bind(this)} backdrop="static">
+          <ModalHeader toggle={this.togglePasswordModal.bind(this)}>Keep your password safe!</ModalHeader>
+          <ModalBody className="text-center">
+            <p>Your password is <b>{this.props.auth.generatedPassword}</b></p>
+            <br/>
+            <p><b>NOTE!</b> Please save this password in a secret place. If you forget the password, you won't be able to see your information.</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.togglePasswordModal.bind(this)}>OK</Button>
+          </ModalFooter>
+        </Modal>
 
         <FormGroup>
           <Input
@@ -114,7 +139,11 @@ class Main extends Component {
           />
         </FormGroup>
 
-        <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>UPDATE</button>
+        {
+          this.props.app.loading
+          ? <CircularProgress />
+          : <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>UPDATE</button>
+        }
 
         <br/>
       </FormCard>
@@ -131,7 +160,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   const actions = {
-    registerAction
+    updateProfileAction,
+    updateAuthAction,
   };
 
   return {

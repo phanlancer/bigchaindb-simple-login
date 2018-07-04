@@ -68,7 +68,6 @@ export function * fetchUpdateProfile (action) {
       console.log('-success-');
       yield put(updateAppAction({ loading: false, error: false, errorMessage: '' }));
       yield put(updateAuthAction({ authenticated: true, ...res }));
-      yield put(push('/'));
     }
   } catch (error) {
 
