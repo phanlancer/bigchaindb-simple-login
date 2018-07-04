@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.1",
-    "bigchaindb-driver": "^4.0.0",
+    "bigchaindb-driver": "^4.0.2",
     "bip39": "^2.5.0",
     "bootstrap": "^4.1.1",
     "crypto-js": "^3.1.9-1",
