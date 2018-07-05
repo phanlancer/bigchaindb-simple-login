@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 import bip39 from 'bip39';
-import { Ed25519Keypair } from 'bigchaindb-driver';
+import { Ed25519Keypair } from '../bigchaindb-driver';
 
 export function encrypt(text, key) {
   return CryptoJS.AES.encrypt(text, key).toString();

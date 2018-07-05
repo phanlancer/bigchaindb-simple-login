@@ -1,4 +1,4 @@
-import { Connection } from 'bigchaindb-driver';
+import { Connection } from '../bigchaindb-driver';
 import APPCONFIG from '../../constants/config';
 
 const BigchaindbConnection = new Connection(APPCONFIG.apiURL, {

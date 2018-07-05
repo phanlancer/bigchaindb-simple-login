@@ -1,4 +1,4 @@
-import { Transaction } from 'bigchaindb-driver';
+import { Transaction } from '../bigchaindb-driver';
 
 import connection from '../BigchaindbConnection';
 import { encrypt, generateKeypair } from '../../services/CryptoEncrypt';
