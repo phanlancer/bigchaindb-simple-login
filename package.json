@@ -30,7 +30,8 @@
     "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.2",
     "tweetnacl": "^1.0.0",
-    "url-parse": "^1.4.3"
+    "url-parse": "^1.4.3",
+    "merge": ">=1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
