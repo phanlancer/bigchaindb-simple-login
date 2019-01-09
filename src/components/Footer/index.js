@@ -27,6 +27,7 @@ class Footer extends Component {
             <div className="col-12">
               <small className="footer__copyright">Copyright © 2018. All rights reserved</small>
             </div>
+            
           </div>
         </div>
       </footer>
