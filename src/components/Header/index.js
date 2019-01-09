@@ -43,7 +43,7 @@ class Header extends Component {
             <NavbarBrand href="/">Identiify</NavbarBrand>
 
             <NavbarToggler onClick={this.toggle} />
-            
+
             <Collapse isOpen={this.state.isOpen} navbar>
               { 
                 authenticated
@@ -62,6 +62,7 @@ class Header extends Component {
                   </Nav>
               }
             </Collapse>
+            
           </div>
         </Navbar>
       </div>
