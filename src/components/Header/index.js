@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   Collapse,
   Navbar,
@@ -8,9 +8,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink } from 'reactstrap';
-  
-import { logoutAction } from '../../services/actions/auth';
+  NavLink
+} from "reactstrap";
+
+import { logoutAction } from "../../services/actions/auth";
 
 class Header extends Component {
   constructor(props) {
@@ -39,33 +40,31 @@ class Header extends Component {
       <div>
         <Navbar color="dark" dark expand="md">
           <div className="container">
-
             <NavbarBrand href="/">Identiify</NavbarBrand>
 
             <NavbarToggler onClick={this.toggle} />
 
             <Collapse isOpen={this.state.isOpen} navbar>
-              { 
-                authenticated
-                ? <Nav className="ml-auto" navbar>
-                    <NavItem>
-                      <NavLink onClick={this.handleLogout.bind(this)}>LOG OUT</NavLink>
-                    </NavItem>
-                  </Nav>
-                : <Nav className="ml-auto" navbar>
+              {authenticated ? (
+                <Nav className="ml-auto" navbar>
+                  <NavItem>
+                    <NavLink onClick={this.handleLogout.bind(this)}>
+                      LOG OUT
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+              ) : (
+                <Nav className="ml-auto" navbar>
+                  <NavItem>
+                    <NavLink href="/login">LOG IN</NavLink>
+                  </NavItem>
 
-                    <NavItem>
-                      <NavLink href="/login">LOG IN</NavLink>
-                    </NavItem>
-
-                    <NavItem>
-                      <NavLink href="/register">REGISTER</NavLink>
-                    </NavItem>
-                    
-                  </Nav>
-              }
+                  <NavItem>
+                    <NavLink href="/register">REGISTER</NavLink>
+                  </NavItem>
+                </Nav>
+              )}
             </Collapse>
-            
           </div>
         </Navbar>
       </div>
@@ -73,7 +72,7 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   authenticated: state.auth.authenticated
 });
 
@@ -84,4 +83,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
