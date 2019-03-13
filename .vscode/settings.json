@@ -5,6 +5,7 @@
     "BIGCHAIN",
     "decamelize",
     "randomstring",
-    "ponyfill"
+    "ponyfill",
+    "reactstrap"
   ]
 }
