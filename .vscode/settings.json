@@ -4,6 +4,7 @@
     "BIGCHAINDB",
     "BIGCHAIN",
     "decamelize",
-    "randomstring"
+    "randomstring",
+    "ponyfill"
   ]
 }
