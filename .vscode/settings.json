@@ -1,7 +1,3 @@
 {
-  "cSpell.ignoreWords": [
-    "Identiify",
-    "BIGCHAINDB",
-    "BIGCHAIN"
-  ]
+  "cSpell.ignoreWords": ["Identiify", "BIGCHAINDB", "BIGCHAIN", "decamelize"]
 }
