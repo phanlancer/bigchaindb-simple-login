@@ -8,6 +8,7 @@
     "ponyfill",
     "reactstrap",
     "tweetnacl",
-    "devtools"
+    "devtools",
+    "clearfix"
   ]
 }
