@@ -7,6 +7,7 @@
     "randomstring",
     "ponyfill",
     "reactstrap",
-    "tweetnacl"
+    "tweetnacl",
+    "devtools"
   ]
 }
