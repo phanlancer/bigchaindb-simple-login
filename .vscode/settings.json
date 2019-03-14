@@ -6,6 +6,7 @@
     "decamelize",
     "randomstring",
     "ponyfill",
-    "reactstrap"
+    "reactstrap",
+    "tweetnacl"
   ]
 }
