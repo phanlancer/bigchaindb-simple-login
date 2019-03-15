@@ -9,6 +9,7 @@
     "reactstrap",
     "tweetnacl",
     "devtools",
-    "clearfix"
+    "clearfix",
+    "noopener"
   ]
 }
