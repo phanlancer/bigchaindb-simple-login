@@ -10,6 +10,7 @@
     "tweetnacl",
     "devtools",
     "clearfix",
-    "noopener"
+    "noopener",
+    "noreferrer"
   ]
 }
