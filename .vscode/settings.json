@@ -12,6 +12,7 @@
     "clearfix",
     "noopener",
     "noreferrer",
-    "reddit"
+    "reddit",
+    "APPCONFIG"
   ]
 }
