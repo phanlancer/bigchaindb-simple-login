@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Footer extends Component {
   render() {
@@ -6,28 +6,52 @@ class Footer extends Component {
       <footer className="footer">
         <div className="container">
           <div className="row">
-
             <div className="col-12">
               <ul className="footer__social clearfix">
                 <li>
-                  <a href="https://medium.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-medium"></i></a>
+                  <a
+                    href="https://medium.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fab fa-medium" />
+                  </a>
                 </li>
                 <li>
-                  <a href="https://github.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-github"></i></a>
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fab fa-github" />
+                  </a>
                 </li>
                 <li>
-                  <a href="https://www.reddit.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-reddit"></i></a>
+                  <a
+                    href="https://www.reddit.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fab fa-reddit" />
+                  </a>
                 </li>
                 <li>
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-twitter"></i></a>
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fab fa-twitter" />
+                  </a>
                 </li>
               </ul>
             </div>
 
             <div className="col-12">
-              <small className="footer__copyright">Copyright © 2018. All rights reserved</small>
+              <small className="footer__copyright">
+                Copyright © 2018. All rights reserved
+              </small>
             </div>
-            
           </div>
         </div>
       </footer>
