@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { FormGroup, Input, Label } from 'reactstrap';
-import { NavLink, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { FormGroup, Input, Label } from "reactstrap";
+import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { loginAction } from '../../../../services/actions/auth';
-import FormCard from '../../components/FormCard';
-import CircularProgress from '../../../../components/CircularProgress';
+import { loginAction } from "../../../../services/actions/auth";
+import FormCard from "../../components/FormCard";
+import CircularProgress from "../../../../components/CircularProgress";
 
 class Login extends Component {
   constructor() {
     super();
 
     this.state = {
-      password: '',
+      password: "",
       showWarn: false
     };
   }
 
   checkValidation() {
-    return this.state.password !== '';
+    return this.state.password !== "";
   }
 
   // handle events
@@ -43,15 +43,11 @@ class Login extends Component {
   render() {
     return (
       <FormCard title="Log In">
-        {
-          this.state.showWarn && this.checkValidation() === false &&
-          (<Label>Please input your password</Label>)
-        }
+        {this.state.showWarn && this.checkValidation() === false && (
+          <Label>Please input your password</Label>
+        )}
 
-        {
-          this.props.app.error &&
-          (<Label>{this.props.app.errorMessage}</Label>)
-        }
+        {this.props.app.error && <Label>{this.props.app.errorMessage}</Label>}
 
         <FormGroup>
           <Input
@@ -65,16 +61,20 @@ class Login extends Component {
           />
         </FormGroup>
 
-        {
-          this.props.app.loading
-          ? <CircularProgress />
-          : <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>LOG IN</button>
-        }
-        
-        <br/>
-        <NavLink to="/register">
-          REGISTER
-        </NavLink>
+        {this.props.app.loading ? (
+          <CircularProgress />
+        ) : (
+          <button
+            className="form__btn mb-5 mt-3"
+            type="button"
+            onClick={this.handleSubmit.bind(this)}
+          >
+            LOG IN
+          </button>
+        )}
+
+        <br />
+        <NavLink to="/register">REGISTER</NavLink>
       </FormCard>
     );
   }
@@ -96,4 +96,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Login)
+);
