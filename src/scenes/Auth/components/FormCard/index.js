@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form } from 'reactstrap';
+import React from "react";
+import { Form } from "reactstrap";
 
 const FormCard = props => {
   return (
@@ -8,14 +8,12 @@ const FormCard = props => {
         <div className="row">
           <div className="col-12">
             <h2 className="mb-5">{props.title}</h2>
-            <Form>
-              {props.children}
-            </Form>
+            <Form>{props.children}</Form>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default FormCard;
