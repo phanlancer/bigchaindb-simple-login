@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { FormGroup, Input, Label } from 'reactstrap';
-import { NavLink, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import RandomString from 'randomstring';
+import React, { Component } from "react";
+import { FormGroup, Input, Label } from "reactstrap";
+import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import RandomString from "randomstring";
 
-import { registerAction } from '../../../../services/actions/auth';
-import FormCard from '../../components/FormCard';
-import CircularProgress from '../../../../components/CircularProgress';
+import { registerAction } from "../../../../services/actions/auth";
+import FormCard from "../../components/FormCard";
+import CircularProgress from "../../../../components/CircularProgress";
 
 class Register extends Component {
   constructor() {
@@ -16,17 +16,22 @@ class Register extends Component {
     const password = RandomString.generate(16);
 
     this.state = {
-      name: '',
-      address: '',
-      DOB: '',
-      email: '',
+      name: "",
+      address: "",
+      DOB: "",
+      email: "",
       password: password,
       showWarn: false
     };
   }
 
   checkValidation() {
-    return this.state.email !== '' && this.state.address !== '' && this.state.DOB !== '' && this.state.name !== '';
+    return (
+      this.state.email !== "" &&
+      this.state.address !== "" &&
+      this.state.DOB !== "" &&
+      this.state.name !== ""
+    );
   }
 
   // handle events
@@ -66,15 +71,11 @@ class Register extends Component {
   render() {
     return (
       <FormCard title="Register your information">
-        {
-          this.state.showWarn && this.checkValidation() === false &&
-          (<Label>All Fields are required</Label>)
-        }
+        {this.state.showWarn && this.checkValidation() === false && (
+          <Label>All Fields are required</Label>
+        )}
 
-        {
-          this.props.app.error &&
-          (<Label>{this.props.app.errorMessage}</Label>)
-        }
+        {this.props.app.error && <Label>{this.props.app.errorMessage}</Label>}
 
         <FormGroup>
           <Input
@@ -121,16 +122,20 @@ class Register extends Component {
           />
         </FormGroup>
 
-        {
-          this.props.app.loading
-          ? <CircularProgress />
-          : <button className="form__btn mb-5 mt-3" type="button" onClick={this.handleSubmit.bind(this)}>REGISTER</button>
-        }
+        {this.props.app.loading ? (
+          <CircularProgress />
+        ) : (
+          <button
+            className="form__btn mb-5 mt-3"
+            type="button"
+            onClick={this.handleSubmit.bind(this)}
+          >
+            REGISTER
+          </button>
+        )}
 
-        <br/>
-        <NavLink to="/login">
-          LOG IN
-        </NavLink>
+        <br />
+        <NavLink to="/login">LOG IN</NavLink>
       </FormCard>
     );
   }
@@ -152,4 +157,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Register)
+);
