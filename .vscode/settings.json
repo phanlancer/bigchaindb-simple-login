@@ -13,6 +13,7 @@
     "noopener",
     "noreferrer",
     "reddit",
-    "APPCONFIG"
+    "APPCONFIG",
+    "preimage"
   ]
 }
