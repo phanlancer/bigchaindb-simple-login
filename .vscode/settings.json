@@ -15,6 +15,7 @@
     "reddit",
     "APPCONFIG",
     "preimage",
-    "Jsonify"
+    "Jsonify",
+    "bitmask"
   ]
 }
