@@ -1,14 +1,12 @@
-import { Promise } from 'es6-promise'
-import fetchPonyfill from 'fetch-ponyfill'
-import { vsprintf } from 'sprintf-js'
+import { Promise } from "es6-promise";
+import fetchPonyfill from "fetch-ponyfill";
+import { vsprintf } from "sprintf-js";
 
-import formatText from './format_text'
+import formatText from "./format_text";
 
-import stringifyAsQueryParam from './stringify_as_query_param'
+import stringifyAsQueryParam from "./stringify_as_query_param";
 
-
-const fetch = fetchPonyfill(Promise)
-
+const fetch = fetchPonyfill(Promise);
 
 /**
  * imported from https://github.com/bigchaindb/js-utility-belt/
@@ -37,52 +35,56 @@ const fetch = fetchPonyfill(Promise)
  * @return {Promise}        Promise that will resolve with the response if its status was 2xx;
  *                          otherwise rejects with the response
  */
-export default function baseRequest(url, {
-    jsonBody, query, urlTemplateSpec, ...fetchConfig
-} = {}) {
-    let expandedUrl = url
+export default function baseRequest(
+  url,
+  { jsonBody, query, urlTemplateSpec, ...fetchConfig } = {}
+) {
+  let expandedUrl = url;
 
-    if (urlTemplateSpec != null) {
-        if (Array.isArray(urlTemplateSpec) && urlTemplateSpec.length) {
-            // Use vsprintf for the array call signature
-            expandedUrl = vsprintf(url, urlTemplateSpec)
-        } else if (urlTemplateSpec &&
-                   typeof urlTemplateSpec === 'object' &&
-                   Object.keys(urlTemplateSpec).length) {
-            expandedUrl = formatText(url, urlTemplateSpec)
-        } else if (process.env.NODE_ENV !== 'production') {
-            // eslint-disable-next-line no-console
-            console.warn('Supplied urlTemplateSpec was not an array or object. Ignoring...')
-        }
+  if (urlTemplateSpec != null) {
+    if (Array.isArray(urlTemplateSpec) && urlTemplateSpec.length) {
+      // Use vsprintf for the array call signature
+      expandedUrl = vsprintf(url, urlTemplateSpec);
+    } else if (
+      urlTemplateSpec &&
+      typeof urlTemplateSpec === "object" &&
+      Object.keys(urlTemplateSpec).length
+    ) {
+      expandedUrl = formatText(url, urlTemplateSpec);
+    } else if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "Supplied urlTemplateSpec was not an array or object. Ignoring..."
+      );
     }
+  }
 
-    if (query != null) {
-        if (typeof query === 'string') {
-            expandedUrl += query
-        } else if (query && typeof query === 'object') {
-            expandedUrl += stringifyAsQueryParam(query)
-        } else if (process.env.NODE_ENV !== 'production') {
-            // eslint-disable-next-line no-console
-            console.warn('Supplied query was not a string or object. Ignoring...')
-        }
+  if (query != null) {
+    if (typeof query === "string") {
+      expandedUrl += query;
+    } else if (query && typeof query === "object") {
+      expandedUrl += stringifyAsQueryParam(query);
+    } else if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.warn("Supplied query was not a string or object. Ignoring...");
     }
+  }
 
-    if (jsonBody != null) {
-        fetchConfig.body = JSON.stringify(jsonBody)
+  if (jsonBody != null) {
+    fetchConfig.body = JSON.stringify(jsonBody);
+  }
+
+  return fetch.fetch(expandedUrl, fetchConfig).then(res => {
+    // If status is not a 2xx (based on Response.ok), assume it's an error
+    // See https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch
+    if (!(res && res.ok)) {
+      const errorObject = {
+        message: "HTTP Error: Requested page not reachable",
+        status: `${res.status} ${res.statusText}`,
+        requestURI: res.url
+      };
+      throw errorObject;
     }
-
-    return fetch.fetch(expandedUrl, fetchConfig)
-        .then((res) => {
-            // If status is not a 2xx (based on Response.ok), assume it's an error
-            // See https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch
-            if (!(res && res.ok)) {
-                const errorObject = {
-                    message: 'HTTP Error: Requested page not reachable',
-                    status: `${res.status} ${res.statusText}`,
-                    requestURI: res.url
-                }
-                throw errorObject
-            }
-            return res
-        })
+    return res;
+  });
 }
