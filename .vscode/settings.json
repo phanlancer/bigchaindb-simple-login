@@ -19,6 +19,7 @@
     "bitmask",
     "subcondition",
     "subconditions",
-    "subfulfillment"
+    "subfulfillment",
+    "vsprintf"
   ]
 }
