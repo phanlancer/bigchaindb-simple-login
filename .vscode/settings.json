@@ -18,6 +18,7 @@
     "Jsonify",
     "bitmask",
     "subcondition",
-    "subconditions"
+    "subconditions",
+    "subfulfillment"
   ]
 }
