@@ -16,6 +16,8 @@
     "APPCONFIG",
     "preimage",
     "Jsonify",
-    "bitmask"
+    "bitmask",
+    "subcondition",
+    "subconditions"
   ]
 }
