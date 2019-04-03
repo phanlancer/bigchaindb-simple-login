@@ -22,6 +22,7 @@
     "subfulfillment",
     "vsprintf",
     "sprintf",
-    "Keypair"
+    "Keypair",
+    "polyfill"
   ]
 }
