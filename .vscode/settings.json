@@ -21,6 +21,7 @@
     "subconditions",
     "subfulfillment",
     "vsprintf",
-    "sprintf"
+    "sprintf",
+    "Keypair"
   ]
 }
