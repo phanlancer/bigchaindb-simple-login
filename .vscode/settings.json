@@ -23,6 +23,7 @@
     "vsprintf",
     "sprintf",
     "Keypair",
-    "polyfill"
+    "polyfill",
+    "nacl"
   ]
 }
