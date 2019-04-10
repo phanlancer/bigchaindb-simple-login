@@ -24,6 +24,7 @@
     "sprintf",
     "Keypair",
     "polyfill",
-    "nacl"
+    "nacl",
+    "dimi"
   ]
 }
