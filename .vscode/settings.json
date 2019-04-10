@@ -25,6 +25,7 @@
     "Keypair",
     "polyfill",
     "nacl",
-    "dimi"
+    "dimi",
+    "Currywurst"
   ]
 }
