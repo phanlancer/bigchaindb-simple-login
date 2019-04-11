@@ -26,6 +26,8 @@
     "polyfill",
     "nacl",
     "dimi",
-    "Currywurst"
+    "currywurst",
+    "cond",
+    "regexes"
   ]
 }
