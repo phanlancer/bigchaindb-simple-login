@@ -15,7 +15,7 @@ function filterFromObject(obj, filter, { isInclusion = true } = {}) {
         : (_, key) => !coreIncludes(filter, key)
     );
   } else if (filter && typeof filter === "function") {
-    // Flip the filter fn's return if it's for inclusion
+    // Flip the filter fn 's return if it's for inclusion
     return applyFilterOnObject(
       obj,
       isInclusion ? filter : (...args) => !filter(...args)
