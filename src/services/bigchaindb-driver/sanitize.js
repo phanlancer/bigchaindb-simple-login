@@ -47,7 +47,7 @@ function applyFilterOnObject(obj, filterFn) {
 }
 
 /**
- * Similar to lodash's _.pick(), this returns a copy of the given object's
+ * Similar to lodash 's _.pick(), this returns a copy of the given object's
  * own and inherited enumerable properties, selecting only the keys in
  * the given array or whose value pass the given filter function.
  * @param  {object}         obj    Source object
