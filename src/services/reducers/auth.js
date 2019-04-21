@@ -1,10 +1,10 @@
-import { ACTION_UPDATE_AUTH } from '../../constants/ActionTypes';
+import { ACTION_UPDATE_AUTH } from "../../constants/ActionTypes";
 
 const initialState = {
   currentIdentity: {},
   authenticated: false,
-  generatedPassword: '',
-  me: {}                    // transaction in the blockchain
+  generatedPassword: "",
+  me: {} // transaction in the blockchain
 };
 
 const auth = (state = initialState, action) => {
