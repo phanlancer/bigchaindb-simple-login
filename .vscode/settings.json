@@ -29,6 +29,7 @@
     "currywurst",
     "cond",
     "regexes",
-    "cryptocondition"
+    "cryptocondition",
+    "middlewares"
   ]
 }
