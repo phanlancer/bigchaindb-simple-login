@@ -33,6 +33,7 @@
     "middlewares",
     "persistor",
     "antialiased",
-    "Linearicons"
+    "Linearicons",
+    "flexbox"
   ]
 }
