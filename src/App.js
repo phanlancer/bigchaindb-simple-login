@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Home from './scenes/Home';
-import Page404 from './scenes/404';
-import PageLogin from './scenes/Auth/scenes/Login';
-import PageRegister from './scenes/Auth/scenes/Register';
-import Main from './scenes/Main';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import Home from "./scenes/Home";
+import Page404 from "./scenes/404";
+import PageLogin from "./scenes/Auth/scenes/Login";
+import PageRegister from "./scenes/Auth/scenes/Register";
+import Main from "./scenes/Main";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 class App extends Component {
   render() {
-    const {
-      authenticated
-    } = this.props;
+    const { authenticated } = this.props;
 
     if (authenticated === false) {
       return (
