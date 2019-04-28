@@ -1,22 +1,22 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter } from 'react-router-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
+import { ConnectedRouter } from "react-router-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
-import registerServiceWorker from './registerServiceWorker';
-import configureStore from './services/store';
+import registerServiceWorker from "./registerServiceWorker";
+import configureStore from "./services/store";
 
-import App from './App';
-import Page404 from './scenes/404';
+import App from "./App";
+import Page404 from "./scenes/404";
 
 const history = createHistory();
 
 export const { store, persistor } = configureStore(undefined, history);
 
-const MOUNT_NODE = document.getElementById('root');
+const MOUNT_NODE = document.getElementById("root");
 
 render(
   <Provider store={store}>
