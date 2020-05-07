@@ -8,7 +8,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from "reactstrap";
 
 import { logoutAction } from "../../services/actions/auth";
@@ -19,13 +19,13 @@ class Header extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -72,14 +72,14 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
 });
 
 function mapDispatchToProps(dispatch) {
   const actions = { logoutAction };
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
