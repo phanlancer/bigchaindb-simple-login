@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "reactstrap";
 
-const FormCard = props => {
+const FormCard = (props) => {
   return (
     <div className="auth-form">
       <div className="card text-center container py-5 px-4">
