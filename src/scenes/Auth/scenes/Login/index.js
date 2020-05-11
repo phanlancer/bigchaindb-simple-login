@@ -14,7 +14,7 @@ class Login extends Component {
 
     this.state = {
       password: "",
-      showWarn: false
+      showWarn: false,
     };
   }
 
@@ -35,7 +35,7 @@ class Login extends Component {
     this.setState({ showWarn: false });
 
     const payload = {
-      password: this.state.password
+      password: this.state.password,
     };
     this.props.actions.loginAction(payload);
   }
@@ -82,17 +82,17 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    app: state.app
+    app: state.app,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = {
-    loginAction
+    loginAction,
   };
 
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
