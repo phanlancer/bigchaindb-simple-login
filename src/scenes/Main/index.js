@@ -7,7 +7,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter
+  ModalFooter,
 } from "reactstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ class Main extends Component {
       ...profile,
       showWarn: false,
       isOpenPasswordModal:
-        generatedPassword !== undefined && generatedPassword.length > 0
+        generatedPassword !== undefined && generatedPassword.length > 0,
     };
   }
 
@@ -72,7 +72,7 @@ class Main extends Component {
       name: this.state.name,
       address: this.state.address,
       DOB: this.state.DOB,
-      email: this.state.email
+      email: this.state.email,
     };
     this.props.actions.updateProfileAction(payload);
   }
@@ -80,10 +80,10 @@ class Main extends Component {
   togglePasswordModal() {
     this.props.actions.updateAuthAction({
       ...this.props.auth,
-      generatedPassword: ""
+      generatedPassword: "",
     });
     this.setState({
-      isOpenPasswordModal: !this.state.isOpenPasswordModal
+      isOpenPasswordModal: !this.state.isOpenPasswordModal,
     });
   }
 
@@ -190,18 +190,18 @@ class Main extends Component {
 function mapStateToProps(state) {
   return {
     app: state.app,
-    auth: state.auth
+    auth: state.auth,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = {
     updateProfileAction,
-    updateAuthAction
+    updateAuthAction,
   };
 
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
