@@ -21,7 +21,7 @@ class Register extends Component {
       DOB: "",
       email: "",
       password: password,
-      showWarn: false
+      showWarn: false,
     };
   }
 
@@ -63,7 +63,7 @@ class Register extends Component {
       address: this.state.address,
       DOB: this.state.DOB,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
     this.props.actions.registerAction(payload);
   }
@@ -143,17 +143,17 @@ class Register extends Component {
 
 function mapStateToProps(state) {
   return {
-    app: state.app
+    app: state.app,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = {
-    registerAction
+    registerAction,
   };
 
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   };
 }
 
