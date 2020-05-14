@@ -4,12 +4,12 @@ import connection from "../BigchaindbConnection";
 import { encrypt, generateKeypair } from "../../services/CryptoEncrypt";
 import { store } from "../../index";
 
-export const register = userInfo => {
+export const register = (userInfo) => {
   const currentIdentity = generateKeypair(userInfo.password);
   // Create asset object.
   const assetData = {
     type: "Identiify",
-    item: "IDProfile"
+    item: "IDProfile",
   };
   // Create metadata object.
   const encryptKey = currentIdentity.privateKey;
@@ -19,7 +19,7 @@ export const register = userInfo => {
     address: encrypt(userInfo.address, encryptKey),
     email: encrypt(userInfo.email, encryptKey),
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
   // Create a CREATE transaction.
   const transaction = Transaction.makeCreateTransaction(
@@ -28,7 +28,7 @@ export const register = userInfo => {
     [
       Transaction.makeOutput(
         Transaction.makeEd25519Condition(currentIdentity.publicKey)
-      )
+      ),
     ],
     currentIdentity.publicKey
   );
@@ -43,47 +43,47 @@ export const register = userInfo => {
   return new Promise((resolve, reject) => {
     connection
       .postTransactionCommit(signedTransaction)
-      .then(response => {
+      .then((response) => {
         resolve({
           currentIdentity: currentIdentity,
           generatedPassword: userInfo.password,
-          me: response
+          me: response,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
 };
 
-export const login = userInfo => {
+export const login = (userInfo) => {
   const currentIdentity = generateKeypair(userInfo.password);
 
   return new Promise((resolve, reject) => {
     // Get a list of ids of unspent transactions from a public key.
     connection
       .listOutputs(currentIdentity.publicKey, false)
-      .then(response => {
+      .then((response) => {
         console.log("response outputs - ", response);
         // select the last transaction for the latest updated profile
         const transactionId = response[response.length - 1].transaction_id;
         connection
           .getTransaction(transactionId)
-          .then(response => {
+          .then((response) => {
             console.log("response transaction - ", response);
             resolve({ currentIdentity: currentIdentity, me: response });
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
 };
 
-export const updateProfile = userInfo => {
+export const updateProfile = (userInfo) => {
   const { currentIdentity, me } = store.getState().auth;
   // Create metadata object.
   const encryptKey = currentIdentity.privateKey;
@@ -93,7 +93,7 @@ export const updateProfile = userInfo => {
     address: encrypt(userInfo.address, encryptKey),
     email: encrypt(userInfo.email, encryptKey),
     created_at: me.metadata.created_at,
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   // Create a new TRANSFER transaction.
@@ -102,7 +102,7 @@ export const updateProfile = userInfo => {
     [
       Transaction.makeOutput(
         Transaction.makeEd25519Condition(currentIdentity.publicKey)
-      )
+      ),
     ],
     metaData
   );
@@ -113,10 +113,10 @@ export const updateProfile = userInfo => {
   return new Promise((resolve, reject) => {
     connection
       .postTransactionCommit(signedTransaction)
-      .then(response => {
+      .then((response) => {
         resolve({ currentIdentity: currentIdentity, me: response });
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
