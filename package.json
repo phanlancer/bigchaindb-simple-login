@@ -16,7 +16,7 @@
     "js-sha3": "^0.8.0",
     "js-utility-belt": "^1.5.0",
     "json-stable-stringify": "^1.0.1",
-    "lodash": ">=4.17.14",
+    "lodash": ">=4.17.19",
     "merge": ">=1.2.1",
     "query-string": "^6.12.1",
     "randomstring": "^1.1.5",
